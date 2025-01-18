@@ -56,7 +56,6 @@
                 }
             }
 
-            // Print the name of the nearest friend
             if (nearestFriend) {
                 console.log(nearestFriend);
             }
@@ -131,7 +130,7 @@
                 }
             }
 
-            // Book the consultant or print "No Service"
+
             if (bestConsultant !== null) {
                 bestConsultant.bookedSlots.push({ start: requestStart, end: requestEnd });
                 console.log(bestConsultant.name);
@@ -156,22 +155,22 @@
         // Task 3
         console.log('===Task 3===')
         function func(...data) {
-            // Extract middle names and maintain a mapping to the original names
+            // Extract middle names and map them to the original names
             const middleNames = [];
-            const original = {}; // Maps original name to its middle name
+            const original = {}; 
 
             for (const name of data) {
                 const length = name.length;
                 let middleName;
 
                 // Determine the middle name based on the length of the name
-                if (length === 2) { // Name has 2 words, middle name is the second word
+                if (length === 2) { 
                     middleName = name[1];
-                } else if (length === 4) { // Name has 4 words, middle name is the third word
+                } else if (length === 4) { 
                     middleName = name[2];
-                } else if (length === 3) { // Name has 3 words, middle name is the second word
+                } else if (length === 3) { 
                     middleName = name[1];
-                } else if (length === 5) { // Name has 5 words, middle name is the third word
+                } else if (length === 5) {
                     middleName = name[2];
                 } else {
                     continue; // Skip names that don't match these cases
@@ -203,11 +202,11 @@
             if (uniqueNames.length > 0) {
                 console.log(uniqueNames.join(","));
             } else {
-                console.log("沒有"); // No unique middle names
+                console.log("沒有"); 
             }
         }
 
-        // Example Usage
+        
         func("彭大牆", "陳王明雅", "吳明"); // Output: 彭大牆
         func("郭靜雅", "王立強", "郭林靜宜", "郭立恆", "林花花"); // Output: 林花花
         func("郭宣雅", "林靜宜", "郭宣恆", "林靜花"); // Output: 沒有

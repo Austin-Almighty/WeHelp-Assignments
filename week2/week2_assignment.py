@@ -38,11 +38,11 @@ def find_and_print(messages, current_station):
         # Check if this friend is closer
         if distance < min_distance:
             min_distance = distance
-            nearest_friend = (friend, station)
+            nearest_friend = friend
 
     # Print the name of the nearest friend
     if nearest_friend:
-        print(nearest_friend[0])
+        print(nearest_friend)
 
 messages = {
     "Leslie": "I'm at home near Xiaobitan station.",
@@ -96,8 +96,7 @@ def book(consultants, hour, duration, criteria):
             if best_rate is None or consultant["rate"] > best_rate:
                 best_rate = consultant["rate"]
                 best_consultant = consultant
-    else:
-        return  # Invalid criteria, do nothing
+
 
     # Book the consultant or print "No Service"
     if best_consultant is not None:
@@ -124,22 +123,21 @@ book(consultants, 14, 3, "price")  # John
 print("===Task 3===")
 
 def func(*data):
-    # Extract middle names and maintain a mapping to the original names
+    # Extract middle names and map to the original names
     middle_names = []
-    original = {}  # Maps original name to its middle name
+    original = {}  
 
     for name in data:
         length = len(name)
-        if length == 2:  # If name has 2 words, middle name is the second word
+        if length == 2:  
             middle_name = name[1]
-        elif length == 4:  # If name has 4 words, middle name is the third word
+        elif length == 4:  
             middle_name = name[2]
-        elif length == 3:  # If name has 3 words, middle name is the second word
+        elif length == 3:  
             middle_name = name[1]
         elif length == 5:
             middle_name = name[2]
-        else:
-            continue  
+        
 
         middle_names.append(middle_name)
         original[name] = middle_name
@@ -155,11 +153,11 @@ def func(*data):
     # Find names with unique middle names
     unique_names = [name for name, middle_name in original.items() if counts[middle_name] == 1]
 
-    # Print results
+
     if unique_names:
         print(",".join(unique_names))
     else:
-        print("沒有")  # No unique middle names
+        print("沒有")  
 
 
 func("彭大牆","陳王明雅","吳明") # print 彭大牆
@@ -169,7 +167,7 @@ func("郭宣雅","夏曼藍波安","郭宣恆") # print 夏曼藍波安
 
 print("===Task 4===")
 def get_number(index):
-    ans = 0;
+    ans = 0
     if index == 0:
         ans = 0
     elif index % 3 == 1:
