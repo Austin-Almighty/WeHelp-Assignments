@@ -49,5 +49,24 @@ with open('spot.csv', mode='w', newline='', encoding='utf-8') as file:
 
 
 # ----Task 1.2
+# A dictionary to group tourist destinations by nearest MRT stations
+group_by_mrt = {}
+
+for spot in destinations:
+    station = spot['MRT']
+    place = spot['title']
+# If the current station is not in the dictionary, create a new list
+    if station not in group_by_mrt:
+        group_by_mrt[station] = []
+    
+    #add names of tourist attractions to the list
+    group_by_mrt[station].append(place)
+# group_by_mrt now: keys = names of MRT stations; values = [tourist attractions]
 
 
+#Output the results to spot.csv
+with open('mrt.csv', mode='w', newline='', encoding='utf-8') as file2:
+    writer = csv.writer(file2)
+    for station, spots in group_by_mrt.items():
+        row = [station] + spots #Add name of the station to the front of the list
+        writer.writerow(row)
