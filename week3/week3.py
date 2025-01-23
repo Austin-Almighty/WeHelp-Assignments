@@ -38,7 +38,7 @@ for location in destinations:
     for locale in data2['data']:
         if location['serial_no'] == locale['SERIAL_NO']: #Match the items from both files by checking for matching serial numbers
             location['MRT'] = locale['MRT']
-            location['district'] = locale['address'][4:8]
+            location['district'] = locale['address'][5:8]
 
 
 #Write to spot.csv
