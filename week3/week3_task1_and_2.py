@@ -42,7 +42,7 @@ for location in destinations:
 
 
 #Write to spot.csv
-with open('./spot.csv', mode='w', newline='', encoding='utf-8') as file:
+with open('./week3/spot.csv', mode='w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     for spot in destinations:
         writer.writerow([spot['title'], spot['district'], spot['longitude'], spot['latitude'], spot['image_url']]) #Only output the required information
@@ -65,7 +65,7 @@ for spot in destinations:
 
 
 #Output the results to mrt.csv
-with open('./mrt.csv', mode='w', newline='', encoding='utf-8') as file2:
+with open('./week3/mrt.csv', mode='w', newline='', encoding='utf-8') as file2:
     writer = csv.writer(file2)
     for station, spots in group_by_mrt.items():
         row = [station] + spots #Add name of the station to the front of the list
@@ -154,7 +154,7 @@ for link in link_list:
        
             
 #Output the results to article.csv
-with open('./article.csv', mode='w', newline='', encoding='utf-8') as file3:
+with open('./week3/article.csv', mode='w', newline='', encoding='utf-8') as file3:
     writer = csv.writer(file3)
     for i in range(0, len(title_list)):
         row = [title_list[i], react_list[i], time_list[i]]
