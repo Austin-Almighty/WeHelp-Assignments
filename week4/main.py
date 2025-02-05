@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Path, Query, Form
 from fastapi.responses import FileResponse, RedirectResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from typing import Annotated, Optional
+from typing import Annotated
 
 app = FastAPI()
 
@@ -26,14 +26,14 @@ async def error(
     return templates.TemplateResponse('base.html', context=context)
 
 
-@app.post('/signin', response_class=HTMLResponse)
-def signin(username:Annotated[str, Form()], password:Annotated[str, Form()], request: Request):
+@app.post('/signin/')
+async def signin(username:Annotated[str, Form()], password:Annotated[str, Form()]):
     if len(username) == 0 or len(password) == 0:
         # context = {'request': request,
         #            "page_title": "失敗頁面",
         #            "message": "Please enter your username and password"
         # }
-        return RedirectResponse(url="/error?message=Please+enter+your+username+and+password", status_code=302)
+        return RedirectResponse(url="/error")
     # elif username == "test" and password == "test":
     #     return RedirectResponse('/member')
     # else:
