@@ -5,32 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeHelp Week4</title>
     <link href="{{ url_for('static', path='styles.css')}}" rel="stylesheet">
+    <!-- <link href="../static/styles.css" rel="stylesheet"> -->
 </head>
 <body>
     <div class="banner">
-        <div id="welcome">歡迎光臨，請輸入帳號密碼</div>
+        <div id="bannertext">歡迎光臨，請輸入帳號密碼</div>
     </div>
 
     <div class="login">
-
         <div id="system">登入系統</div>
-        <form action="/signin" name="signin">
-            帳號 <input type="text"><br>
-            密碼 <input type="text"><br>
+        <form action="/signin" id="form" method="post">
+            帳號 <input type="text" id="username" name="username"><br>
+            密碼 <input type="text" id="password" name="password"><br>
             同意條款<input type="checkbox" id="checkbox"><br>
-            <button type="submit">登入</button>
+            <button type="button" id="submit">登入</button>
         </form>
-
     </div>
 
     <script>
+        const form = document.getElementById("form");
         const submit = document.getElementById("submit");
         const checkbox = document.getElementById("checkbox");
         const username = document.getElementById("username");
         const password = document.getElementById("password");
 
-        checkbox.addEventListener("onclick", ()=> {
+        submit.addEventListener("click", ()=> {
+            if (checkbox.checked) {
+                form.submit();
+            } else {
+                alert("Please check the checkbox first");
 
+            }
         })
     </script>
 </body>

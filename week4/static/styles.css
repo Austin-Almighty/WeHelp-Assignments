@@ -6,9 +6,12 @@
     width: 100%;
     font-weight: bold;
     font-size: 30px;
-}
+    margin-bottom: 20px;
+    
+} 
 
-#welcome {
+
+#bannertext {
     color: white;
     align-content: center;
 } 
@@ -20,4 +23,13 @@
 
 #system {
     font-weight: bold;
+}
+
+.message {
+    display: flex;
+    justify-content: center;
+}
+
+#message_text {
+    align-content: center;
 }
