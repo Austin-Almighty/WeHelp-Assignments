@@ -4,30 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeHelp Week4</title>
-    <style>
-        .banner {
-            display: flex;
-            background-color: rgb(38, 51, 66);
-            justify-content: center;
-            /* align-content: center; */
-            height: 200px;
-            width: 100%;
-        }
-
-        #welcome {
-            color: white;
-            align-content: center;
-        }
-    </style>
+    <link href="{{ url_for('static', path='styles.css')}}" rel="stylesheet">
 </head>
 <body>
     <div class="banner">
         <div id="welcome">歡迎光臨，請輸入帳號密碼</div>
     </div>
-    <div>登入系統</div>
-    <form action="">
-        帳號<input type="text">
-        密碼<input type="text">
-    </form>
+
+    <div class="login">
+
+        <div id="system">登入系統</div>
+        <form action="/signin" name="signin">
+            帳號 <input type="text"><br>
+            密碼 <input type="text"><br>
+            同意條款<input type="checkbox" id="checkbox"><br>
+            <button type="submit">登入</button>
+        </form>
+
+    </div>
+
+    <script>
+        const submit = document.getElementById("submit");
+        const checkbox = document.getElementById("checkbox");
+        const username = document.getElementById("username");
+        const password = document.getElementById("password");
+
+        checkbox.addEventListener("onclick", ()=> {
+
+        })
+    </script>
 </body>
 </html>

@@ -1,0 +1,23 @@
+.banner {
+    display: flex;
+    background-color: rgb(38, 51, 66);
+    justify-content: center;
+    height: 100px;
+    width: 100%;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#welcome {
+    color: white;
+    align-content: center;
+} 
+
+.login {
+    text-align: center;
+    gap: 5px;
+}
+
+#system {
+    font-weight: bold;
+}
