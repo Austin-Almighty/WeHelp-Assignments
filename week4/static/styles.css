@@ -25,12 +25,12 @@
     font-weight: bold;
 }
 
-.message {
+.message, .signin{
     display: flex;
     justify-content: center;
 }
 
-#message_text {
+#message_text, #signout {
     align-content: center;
     font-size: 20px;
 }

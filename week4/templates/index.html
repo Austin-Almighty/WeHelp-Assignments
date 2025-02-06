@@ -50,7 +50,7 @@
         const positive = document.getElementById('positive_int');
 
         calculate.addEventListener("click", () => {
-            const input = parseInt(positive.value.trim(), 10);  
+            const input = Number(positive.value.trim(), 10);  
             if (positive.value === '' || isNaN(input) || input <= 0 || !Number.isInteger(input)) {
                 alert("請輸入一個正整數");
             } else {

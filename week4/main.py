@@ -3,11 +3,14 @@ from fastapi.responses import RedirectResponse, HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
+from starlette.middleware.sessions import SessionMiddleware
+
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.add_middleware(SessionMiddleware, secret_key="WeHelp")
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 @app.get('/', response_class=HTMLResponse)
@@ -24,19 +27,27 @@ VALID_USERNAME = 'test'
 VALID_PASSWORD = 'test'
 
 @app.post('/signin')
-async def signin(username: Annotated[str, Form()], password: Annotated[str, Form()]):
+async def signin(username: Annotated[str, Form()], password: Annotated[str, Form()], request: Request):
     if len(username.strip()) == 0 or len(password.strip()) == 0:
         return RedirectResponse(url="/error?message=Please+enter+username+and+password", status_code=303)
     elif username == VALID_USERNAME and password == VALID_PASSWORD:
+        request.session["SIGNED-IN"] = True
         return RedirectResponse(url="/member", status_code=303)
     else:
         return RedirectResponse(url="/error?message=Username+or+password+is+not+correct", status_code=303)
 
+@app.get('/signout')
+def signout(request: Request):
+    request.session["SIGNED-IN"] = False
+    return RedirectResponse(url="/")
+
 
 @app.get('/member', response_class=HTMLResponse)
 async def success(request: Request):
-    return templates.TemplateResponse("base.html", context={"request": request, "page_title": "歡迎光臨，這是會員頁 ", "message": "恭喜您，成功登入系統"})
-
+    if request.session.get("SIGNED-IN") == True:
+        return templates.TemplateResponse("base.html", context={"request": request, "page_title": "歡迎光臨，這是會員頁 ", "message": "恭喜您，成功登入系統", "signout": "登出系統"})
+    else:
+        return RedirectResponse(url="/")
 
 @app.get('/error', response_class=HTMLResponse)
 async def error(request: Request, message: str = Query(default="登入失敗")):
@@ -47,6 +58,8 @@ async def error(request: Request, message: str = Query(default="登入失敗")):
             "message": message
         }
     )
+
+
 
 
 
