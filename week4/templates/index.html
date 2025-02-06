@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeHelp Week4</title>
+    <!-- <link href="{{ url_for('static', path='styles.css')}}" rel="stylesheet"> -->
+    <link href="../static/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="banner">
+        <div id="bannertext">歡迎光臨，請輸入帳號密碼</div>
+    </div>
+
+    <div class="login">
+        <div class="system">登入系統</div>
+        <form action="/signin" id="form" method="post">
+            帳號 <input type="text" id="username" name="username"><br>
+            密碼 <input type="password" id="password" name="password"><br>
+            同意條款<input type="checkbox" id="checkbox"><br>
+            <button type="button" id="button">登入</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <div class="login">
+        <div class="system">計算正整數的平方</div>
+        <form action="/square" id="square" method="get">
+            正整數 <input type="number" id="positive_int" name="positive"><br>
+            <button type="button" id="calculate">計算</button>
+        </form>
+    </div>
+    <script>
+        const form = document.getElementById("form");
+        const button = document.getElementById("button");
+        const checkbox = document.getElementById("checkbox");
+
+
+        button.addEventListener("click", () => {
+            if (checkbox.checked) {
+                form.submit();  
+            } else {
+                alert("Please check the checkbox first.");
+            }
+        });
+
+        const square = document.getElementById('square');
+        const calculate = document.getElementById('calculate');
+        const positive = document.getElementById('positive_int');
+
+        calculate.addEventListener("click", () => {
+            const input = parseInt(positive.value.trim(), 10);  
+            if (positive.value === '' || isNaN(input) || input <= 0 || !Number.isInteger(input)) {
+                alert("請輸入一個正整數");
+            } else {
+                const url = `/square/${input}`;
+                window.location.href = url;
+            }
+        });
+
+    </script>
+</body>
+</html>
