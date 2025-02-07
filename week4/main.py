@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Path, Query, Form
-from fastapi.responses import RedirectResponse, HTMLResponse, FileResponse
+from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
@@ -18,7 +18,7 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", context={"request": request})
 
 @app.get("/square/{positive}")
-def sqaure(positive:Annotated[int, None], request: Request):
+def square(positive:Annotated[int, None], request: Request):
     result = int(positive) * int(positive)
     return templates.TemplateResponse('base.html', context={"request": request, "page_title": "正整數平方計算結果", "message": result})
 
