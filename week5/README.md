@@ -22,6 +22,7 @@ time datetime NOT NULL DEFAULT current_timestamp
 
 ### Task 3
 
+
 ```
 use website;
 
@@ -44,6 +45,31 @@ ORDER BY time DESC;
 
 ```
 ![alt text](<Screenshot 2025-02-10 at 6.04.47 PM.png>)
+
+```
+SELECT * FROM member
+ORDER BY time DESC
+LIMIT 3 OFFSET 1;
+
+SELECT * FROM member
+WHERE username = 'test';
+
+SELECT * FROM member
+WHERE name LIKE '%es%';
+
+SELECT * FROM member
+WHERE username = 'test' AND password = 'test';
+```
+![alt text](<Screenshot 2025-02-10 at 8.33.25 PM.png>)
+
+```
+UPDATE member
+SET name = 'test2'
+WHERE username = 'test';
+
+```
+
+![alt text](<Screenshot 2025-02-10 at 8.40.16 PM.png>)
 
 ### Task 4
 
