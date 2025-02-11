@@ -73,4 +73,22 @@ WHERE username = 'test';
 
 ### Task 4
 
+```
+SELECT COUNT(*) FROM member;
+
+SELECT SUM(follower_count) FROM member;
+
+SELECT AVG(follower_count) FROM member;
+
+SELECT AVG(follower_count) AS AverageFollower
+FROM (
+    SELECT follower_count
+    FROM member
+    ORDER BY follower_count DESC
+    LIMIT 2
+) AS FirstTwoRows;
+```
+
+![alt text](<Screenshot 2025-02-10 at 10.01.10 PM.png>)
+
 ### Task 5
