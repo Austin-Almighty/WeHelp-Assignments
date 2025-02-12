@@ -1,6 +1,6 @@
 ## WeHelp Week 5 Assignment MySQL
 
-### Task 2
+### Task 2 Create database and table in MySQL
 
 ```
 create database webiste;
@@ -20,7 +20,7 @@ time datetime NOT NULL DEFAULT current_timestamp
 
 ![alt text](<Screenshot 2025-02-10 at 4.16.18 PM.png>)
 
-### Task 3
+### Task 3 SQL CRUD
 
 
 ```
@@ -71,7 +71,7 @@ WHERE username = 'test';
 
 ![alt text](<Screenshot 2025-02-10 at 8.40.16 PM.png>)
 
-### Task 4
+### Task 4 Aggregation Functions
 
 ```
 SELECT COUNT(*) FROM member;
@@ -91,4 +91,46 @@ FROM (
 
 ![alt text](<Screenshot 2025-02-10 at 10.01.10 PM.png>)
 
-### Task 5
+### Task 5 SQL JOIN
+```
+CREATE TABLE message (
+    id bigint PRIMARY KEY auto_increment,
+    member_id bigint NOT NULL,
+    cotent VARCHAR(255) NOT NULL,
+    like_count INT UNSIGNED NOT NULL DEFAULT 0,
+    time datetime NOT NULL DEFAULT current_timestamp,
+    FOREIGN KEY (member_id) REFERENCES member(id)
+);
+
+insert into message (member_id, content, like_count)
+    values
+    (1, 'test', 0),
+    (2, 'Never want to wear a ring again', 2094830),
+    (3, 'Shire welcomes all!', 39183),
+    (4, 'Going on an adventure is bad for you', 343),
+    (5, 'When are we going to visit Aragon again?', 129483);
+```
+![alt text](<Screenshot 2025-02-11 at 2.31.59 PM.png>)
+
+```
+select member.name, message.* from message
+INNER JOIN member ON message.member_id = member.id;
+
+select member.name, message.* from message
+INNER JOIN member ON message.member_id = member.id
+WHERE member.username = 'test';
+```
+
+![alt text](<Screenshot 2025-02-11 at 10.06.04 PM.png>)
+
+```
+select AVG(message.like_count) from message
+INNER JOIN member on message.member_id = member.id
+WHERE member.username = 'test';
+
+select member.username, AVG(message.like_count) from message
+INNER JOIN member ON message.member_id = member.id
+GROUP BY member.username;
+```
+
+![alt text](<Screenshot 2025-02-11 at 10.19.41 PM.png>)
