@@ -80,4 +80,23 @@ function fetchData(url) {
       });
   }
 
+  // function loadMore {
+  //   fetch(url)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const results = data.data.results;
+        
+  //       const stitles = [];
+  //       for (let i=13; i<23; i++) {
+  //         const urls = results[i].filelist
+  //           .split(/https?:\/\//)
+  //           .map((url) => `https://${url.trim()}`);
+  //       }
+  //       const firstJpgUrl = urls.find((url) => url.endsWith(".jpg"));
+
+  //     }
+
+  //     )
+  // }
+
   fetchData(url);
