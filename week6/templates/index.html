@@ -13,21 +13,21 @@
 
     <div class="register">
         <div class="system">註冊帳號</div>
-        <form action="/signin" id="register" method="post">
-            姓名 <input type="text" id="name" name="name"><br>
-            帳號 <input type="text" id="username" name="username"><br>
-            密碼 <input type="password" id="password" name="password"><br>
-            <button type="button" id="button">註冊</button>
+        <form action="/signup" id="register" method="post">
+            姓名 <input type="text" id="register_name" name="name"><br>
+            帳號 <input type="text" id="register_username" name="username"><br>
+            密碼 <input type="password" id="register_password" name="password"><br>
+            <button type="button" id="register_button">註冊</button>
         </form>
     </div>
     <hr>
 
     <div class="login">
         <div class="system">登入系統</div>
-        <form action="" id="login">
-            帳號 <input type="text" id="username" name="username"><br>
-            密碼 <input type="password" id="password" name="password"><br>
-            <button type="button" id="button">登入</button>
+        <form action="/signin" id="login">
+            帳號 <input type="text" id="login_username" name="username"><br>
+            密碼 <input type="password" id="login_password" name="password"><br>
+            <button type="button" id="login_button">登入</button>
         </form>
 
     </div>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeHelp Week6</title>
+    <link href="../static/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="banner">
+        <div id="bannertext">{{ page_title  }}</div>
+    </div>
+    <div class="message">
+        <div id="message_text">{{ message}}</div>
+    </div>
+    <div class="signout">
+        <div id="signout"><a href="/signout">{{ signout }}</a></div>
+    </div>
+    <div class="error">
+        <div id="error"><a href="/">{{ return }}</a></div>
+    </div>
+</body>
+</html>
