@@ -20,7 +20,7 @@ register_button.addEventListener("click", () => {
 
 login_button.addEventListener("click", () => {
     if (!login_username.value.trim() || !login_password.value.trim()) {
-        alert("請輸入")
+        alert("請輸入帳號和密碼")
     } else {
         login_form.submit();
     }

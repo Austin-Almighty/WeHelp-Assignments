@@ -13,12 +13,8 @@ app.add_middleware(SessionMiddleware, secret_key='WeHelp')
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-# connection = mysql.connector.connect(**config)
-# cursor = connection.cursor()
-# cursor.execute
-# connection.commit()
-
-# connection.close()
+connection = mysql.connector.connect(**config)
+cursor = connection.cursor()
 
 @app.get('/')
 def index(request: Request):
@@ -26,7 +22,17 @@ def index(request: Request):
 
 @app.get('/member')
 def success(request: Request):
-    return templates.TemplateResponse('base.html', context={'request': request, 'page_title': '歡迎光臨，這是會員頁', 'message': 'Austin，歡迎登入系統'})
+    if request.session.get("SIGNED-IN"):
+        return templates.TemplateResponse('base.html',
+            context={
+                'request': request, 
+                'page_title': '歡迎光臨，這是會員頁', 
+                'message': '，歡迎登入系統',
+                'signout': '登出系統',
+                'member': request.session.get("name")
+                 })
+    else:
+        return RedirectResponse('/')
 
 @app.get('/error')
 def error(request: Request, message: str = Query(default="登入失敗")):
@@ -34,20 +40,45 @@ def error(request: Request, message: str = Query(default="登入失敗")):
         context={
             "request": request,
             "page_title": "失敗頁面",
-            "message": message
+            "message": message,
+            "return": "返回首頁"
         }
     )
 
 @app.post('/signup')
-def signup(request: Request):
-    connection = mysql.connector.connect(**config)
-    cursor = connection.cursor()
-    cursor.execute("")
+def signup(request: Request, name:Annotated[str, Form()], username:Annotated[str, Form()], password:Annotated[str, Form()]):
+    cursor.execute("select username from member where username = %s", (username,))
+    search = cursor.fetchone()
 
-@app.post('signin')
-def signin():
+    if search:
+         return RedirectResponse('/error?message=Repeated+username')
+    else:
+         cursor.execute("insert into member(name, username, password) values (%s, %s, %s);", (name, username, password))
+         connection.commit()
+         return RedirectResponse('/')
+         
+
+@app.post('/signin')
+def signin(request: Request, username:Annotated[str, Form()], password:Annotated[str, Form()]):
+    cursor.execute("select username, password from member where username = %s and password = %s", (username, password))
+    result = cursor.fetchone()
+
+    if result:
+        cursor.execute("select name, username from member where username = %s", (username,))
+        result = cursor.fetchone()
+        request.session["SIGNED-IN"] = True
+        request.session["name"] = result[0]
+        request.session["username"] = result[1]
+        return RedirectResponse('/member', status_code=303)
+    else:
+        return RedirectResponse('/error?message=Username+or+password+is+not+correct', status_code=303)
+
 
 @app.get('/signout')
 def signout(request: Request):
     request.session["SIGNED-IN"] = False
-    return RedirectResponse(url="/")
+    request.session["name"] = None
+    request.session["username"] = None
+    request.session["password"] = None
+    request.session.clear()
+    return RedirectResponse('/')

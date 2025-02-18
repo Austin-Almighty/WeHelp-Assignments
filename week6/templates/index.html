@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeHelp Week 6</title>
-    <link href="../static/styles.css" rel="stylesheet">
+    <!-- <link href="../static/styles.css" rel="stylesheet"> -->
+    <link href="{{url_for('static', path='styles.css')}}" rel="stylesheet">
 </head>
 <body>
     <div class="banner">
@@ -24,13 +25,14 @@
 
     <div class="login">
         <div class="system">登入系統</div>
-        <form action="/signin" id="login">
+        <form action="/signin" id="login" method="post">
             帳號 <input type="text" id="login_username" name="username"><br>
             密碼 <input type="password" id="login_password" name="password"><br>
             <button type="button" id="login_button">登入</button>
         </form>
 
     </div>
-    
+    <script src="{{url_for('static', path='scripts.js')}}"></script>
+
 </body>
 </html>
