@@ -10,6 +10,7 @@ const login_username = document.getElementById('login_username');
 const login_password = document.getElementById('login_password');
 const login_button = document.getElementById('login_button');
 
+
 register_button.addEventListener("click", () => {
     if (!register_name.value.trim() || !register_password.value.trim() || !register_username.value.trim()) {
         alert("註冊前，請確實輸入姓名、帳號、密碼")
@@ -25,4 +26,5 @@ login_button.addEventListener("click", () => {
         login_form.submit();
     }
 })
+
 
