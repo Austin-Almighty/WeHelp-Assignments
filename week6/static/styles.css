@@ -16,7 +16,7 @@
     align-content: center;
 } 
 
-.login, .register {
+.login, .register, .error, .message {
     text-align: center;
     gap: 5px;
 }
