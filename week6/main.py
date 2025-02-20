@@ -14,6 +14,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 connection = mysql.connector.connect(**config)
+cursor = connection.cursor()
 
 
 @app.get('/')
@@ -23,8 +24,6 @@ def index(request: Request):
 @app.get('/member')
 def success(request: Request):
     if request.session.get("SIGNED-IN"):
-        connection = mysql.connector.connect(**config)
-        cursor = connection.cursor()
         cursor.execute('select member.name, message.content, message.member_id, message.id from member INNER JOIN message ON member.id = message.member_id order by message.time;')
         messages = cursor.fetchall()
         return templates.TemplateResponse('member.html',
@@ -52,36 +51,27 @@ def error(request: Request, message: str = Query(default="登入失敗")):
 
 @app.post('/signup')
 def signup(request: Request, name:Annotated[str, Form()], username:Annotated[str, Form()], password:Annotated[str, Form()]):
-    connection = mysql.connector.connect(**config)
-    cursor = connection.cursor()
     cursor.execute("select username from member where username = %s", (username,))
     search = cursor.fetchone()
 
     if search:
-         
          return RedirectResponse('/error?message=Repeated+username', status_code=303)
     else:
          cursor.execute("insert into member(name, username, password) values (%s, %s, %s);", (name, username, password))
          connection.commit()
-         
          return RedirectResponse('/', status_code=303)
          
 
 @app.post('/signin')
 def signin(request: Request, username:Annotated[str, Form()], password:Annotated[str, Form()]):
-    connection = mysql.connector.connect(**config)
-    cursor = connection.cursor()
     cursor.execute("select username, password from member where username = %s and password = %s", (username, password))
     result = cursor.fetchone()
 
     if result:
-        cursor.execute("select name, username, id from member where username = %s", (username,))
-        result = cursor.fetchone()
         request.session["SIGNED-IN"] = True
         request.session["name"] = result[0]
         request.session["username"] = result[1]
         request.session["member_id"] = result[2]
-        
         return RedirectResponse('/member', status_code=303)
     else:
         return RedirectResponse('/error?message=Username+or+password+is+not+correct', status_code=303)
@@ -100,13 +90,8 @@ def signout(request: Request):
 def create(request: Request, comment_box:Annotated[str, Form()]):
     member_id = request.session.get("member_id")
     comment = comment_box.strip()
-    connection = mysql.connector.connect(**config)
-    cursor = connection.cursor()
     cursor.execute("insert into message(member_id, content) values(%s, %s);", (member_id, comment))
     connection.commit()
-    cursor.close()
-    connection.close()
-
     return RedirectResponse('/member', status_code=303)
 
 @app.post('/deleteMessage')
@@ -115,15 +100,10 @@ def delete(request: Request, message_id:Annotated[int, Form()]):
         return RedirectResponse('/', status_code=303)
     
     member_id = request.session.get('member_id')
-
-    connection = mysql.connector.connect(**config)
-    cursor = connection.cursor()
-
     cursor.execute("select id from message where id = %s and member_id = %s;", (message_id, member_id))
     message = cursor.fetchone()
 
     if message:
         cursor.execute("delete from message where id = %s;", (message_id,))
         connection.commit()
-    
     return RedirectResponse("/member", status_code=303)
