@@ -64,7 +64,7 @@ def signup(request: Request, name:Annotated[str, Form()], username:Annotated[str
 
 @app.post('/signin')
 def signin(request: Request, username:Annotated[str, Form()], password:Annotated[str, Form()]):
-    cursor.execute("select username, password from member where username = %s and password = %s", (username, password))
+    cursor.execute("select username, password, id from member where username = %s and password = %s", (username, password))
     result = cursor.fetchone()
 
     if result:
