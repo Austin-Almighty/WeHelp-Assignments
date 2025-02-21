@@ -14,7 +14,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 connection = mysql.connector.connect(**config)
-cursor = connection.cursor()
 
 
 @app.get('/')
@@ -24,6 +23,7 @@ def index(request: Request):
 @app.get('/member')
 def success(request: Request):
     if request.session.get("SIGNED-IN"):
+        cursor = connection.cursor()
         cursor.execute('select member.name, message.content, message.member_id, message.id from member INNER JOIN message ON member.id = message.member_id order by message.time;')
         messages = cursor.fetchall()
         return templates.TemplateResponse('member.html',
@@ -51,6 +51,7 @@ def error(request: Request, message: str = Query(default="登入失敗")):
 
 @app.post('/signup')
 def signup(request: Request, name:Annotated[str, Form()], username:Annotated[str, Form()], password:Annotated[str, Form()]):
+    cursor = connection.cursor()
     cursor.execute("select username from member where username = %s", (username,))
     search = cursor.fetchone()
 
@@ -64,6 +65,7 @@ def signup(request: Request, name:Annotated[str, Form()], username:Annotated[str
 
 @app.post('/signin')
 def signin(request: Request, username:Annotated[str, Form()], password:Annotated[str, Form()]):
+    cursor = connection.cursor()
     cursor.execute("select name, username, id from member where username = %s and password = %s", (username, password))
     result = cursor.fetchone()
 
@@ -90,6 +92,7 @@ def signout(request: Request):
 def create(request: Request, comment_box:Annotated[str, Form()]):
     member_id = request.session.get("member_id")
     comment = comment_box.strip()
+    cursor = connection.cursor()
     cursor.execute("insert into message(member_id, content) values(%s, %s);", (member_id, comment))
     connection.commit()
     return RedirectResponse('/member', status_code=303)
@@ -100,6 +103,7 @@ def delete(request: Request, message_id:Annotated[int, Form()]):
         return RedirectResponse('/', status_code=303)
     
     member_id = request.session.get('member_id')
+    cursor = connection.cursor()
     cursor.execute("select id from message where id = %s and member_id = %s;", (message_id, member_id))
     message = cursor.fetchone()
 
