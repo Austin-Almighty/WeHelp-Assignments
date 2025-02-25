@@ -8,7 +8,7 @@ from config import config
 import mysql.connector
 
 app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key='WeHelp')
+app.add_middleware(SessionMiddleware, secret_key='WOIJFOINOJNFOIJA')
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
@@ -113,8 +113,8 @@ def delete(request: Request, message_id:Annotated[int, Form()]):
     return RedirectResponse("/member", status_code=303)
 
 @app.get('/api/member')
-def api(request: Request, username:str = Query(None)):
-    if not request.session.get("SIGNED-IN"):
+def api(request: Request, username:Annotated[str, Query()]):
+    if not request.session.get("SIGNED-IN", False):
         return JSONResponse({'data':None})
     cursor = connection.cursor()
     cursor.execute('select id, name, username from member where username = %s;', (username,))

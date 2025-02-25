@@ -63,3 +63,15 @@
     margin-left: 5px;
 }
 
+.search {
+    text-align: center;
+}
+
+#searchName {
+    font-weight: 900;
+}
+
+#searchButton {
+    margin-left:5px;
+}
+

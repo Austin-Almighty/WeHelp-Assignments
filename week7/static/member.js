@@ -1,24 +1,29 @@
-const comment_form = document.getElementById("comment_form");
-const comment_box = document.getElementById("comment_box");
-const comment_button = document.getElementById("comment_button");
-const comment = document.getElementById("comment");
+const searchForm = document.getElementById("searchForm");
+const searchBox = document.getElementById("searchBox");
+const searchButton = document.getElementById("searchButton");
+const memberName = document.getElementById("memberName");
 
-comment_button.addEventListener("click", () => {
-    if (comment_box.value.trim().length === 0) {
-        alert("請先輸入留言")
+async function searchMember() {
+    let username = searchBox.value.trim();
+    let response = await fetch(`/api/member?username=${username}`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+    let data = await response.json();
+    if (data.data===null) {
+        memberName.textContent = "No Data";
     } else {
-        comment_form.submit();
+        memberName.textContent = `${data.data.name} (${data.data.username})`;
+    }
+}
+
+searchButton.addEventListener("click", () => {
+    if (!searchBox.value.trim()) {
+        alert("請輸入會員帳號")
+    } else {
+        searchMember();
     }
 })
 
-const deleteButtons = document.querySelectorAll(".delete_button");
-
-deleteButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-      const userConfirmed = confirm("確定要刪除訊息嗎？");
-      
-      if (!userConfirmed) {
-        event.preventDefault(); 
-      }
-    });
-  });

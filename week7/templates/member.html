@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WeHelp Week6</title>
-    <link href="{{url_for('static', path='styles.css')}}" rel="stylesheet">
+    <title>WeHelp Week7</title>
+    <link href="{{ url_for('static', path='styles.css') }}" rel="stylesheet">
+     <!-- <link href="../static/styles.css" rel="stylesheet"> -->
 </head>
 <body>
     <div class="banner">
@@ -22,33 +23,19 @@
 
     <hr>
 
-    <div class="comment">
-        <div id="comment_text"><strong>快來留言吧</strong></div><br>
-        <form action="/createMessage" id="comment_form" method="post">
-            內容 <input type="text" id="comment_box" name="comment_box"><br>
-            <button type="button" id="comment_button">送出</button>
+    <div class="search">
+        <div id="searchName"><strong>查詢會員姓名</strong></div>
+        <form action="/api/member" method="get" id="searchForm">
+            <input type="text" name="searchBox" id="searchBox"><button type="button" id="searchButton">查詢</button>
         </form>
+        <div id="memberName"></div>
     </div>
 
-    <hr>
+   
 
-    <div class="comment_board">
-        {% for name, content, member_id, message_id in messages %}
-        <div class="comment_items">
-            <div id="comments_text"><strong>{{ name }}：</strong>{{ content }}</div>
-                {% if member_id == request.session.member_id %}
-            <span>
-                <form action="/deleteMessage" method="post" id="deleteMessage">
-                    <input type="hidden" name="message_id" value="{{ message_id }}">
-                    <button tpye="submit" class="delete_button">X</button>
-                </form>
-            </span>
-                {% endif %}
-        </div>
-        {% endfor %}
-    </div>
+    <script src="{{ url_for('static', path='member.js') }}"></script>
+     <!-- <script src="../static/member.js"></script> -->
 
-    <script src="{{url_for('static', path='member.js')}}"></script>
 
     
 
