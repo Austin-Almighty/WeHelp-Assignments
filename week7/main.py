@@ -6,7 +6,7 @@ from typing import Annotated
 from starlette.middleware.sessions import SessionMiddleware
 from config import config
 import mysql.connector
-import json
+
 
 
 app = FastAPI()
