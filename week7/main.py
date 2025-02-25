@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Query, Form
+from fastapi import FastAPI, Request, Query, Form, Body, Header
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -6,6 +6,8 @@ from typing import Annotated
 from starlette.middleware.sessions import SessionMiddleware
 from config import config
 import mysql.connector
+import json
+
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key='WOIJFOINOJNFOIJA')
@@ -115,7 +117,7 @@ def delete(request: Request, message_id:Annotated[int, Form()]):
 @app.get('/api/member')
 def api(request: Request, username:Annotated[str, Query()]):
     if not request.session.get("SIGNED-IN", False):
-        return JSONResponse({'data':None})
+        return RedirectResponse('/error?message=You+are+not+signed+in', status_code=303)
     cursor = connection.cursor()
     cursor.execute('select id, name, username from member where username = %s;', (username,))
     member = cursor.fetchone()
@@ -123,3 +125,24 @@ def api(request: Request, username:Annotated[str, Query()]):
         return JSONResponse({'data':None})
     else:
         return JSONResponse({'data':{"id":member[0], "name":member[1], "username":member[2]}})
+    
+@app.patch('/api/member')
+def update(request: Request, body=Body(None)):
+    if not request.session.get("SIGNED-IN", False):
+        return JSONResponse({"error": True})
+    
+    user = request.session["username"]
+    new_name = body["name"]
+
+    if len(new_name) == 0:
+        return JSONResponse({"error": True})
+
+    cursor = connection.cursor()
+    cursor.execute('update member set name = %s where username = %s;', (new_name, user))
+    connection.commit()
+    
+    return JSONResponse({'ok': True})
+
+
+
+

@@ -63,15 +63,15 @@
     margin-left: 5px;
 }
 
-.search {
+.search, .update {
     text-align: center;
 }
 
-#searchName {
+#searchName, #updateName {
     font-weight: 900;
 }
 
-#searchButton {
+#searchButton, #updateButton {
     margin-left:5px;
 }
 

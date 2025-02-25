@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WeHelp Week7</title>
     <link href="{{ url_for('static', path='styles.css') }}" rel="stylesheet">
-     <!-- <link href="../static/styles.css" rel="stylesheet"> -->
+
 </head>
 <body>
     <div class="banner">
@@ -25,19 +25,22 @@
 
     <div class="search">
         <div id="searchName"><strong>查詢會員姓名</strong></div>
-        <form action="/api/member" method="get" id="searchForm">
-            <input type="text" name="searchBox" id="searchBox"><button type="button" id="searchButton">查詢</button>
+        <form onsubmit="searchMember(event)" id="searchForm">
+            <input type="text" name="searchBox" id="searchBox" required><button type="submit" id="searchButton">查詢</button>
         </form>
         <div id="memberName"></div>
     </div>
 
-   
+    <hr>
 
+    <div class="update">
+        <div id="updateName"><strong>更新我的姓名</strong></div>
+        <form onsubmit="updateName(event)" id="updateForm">
+            <input type="text" name="updateBox" id="updateBox"><button type="submit" id="updateButton">更新</button>
+        </form>
+        <div id="updateStatus"></div>
+    </div>
     <script src="{{ url_for('static', path='member.js') }}"></script>
-     <!-- <script src="../static/member.js"></script> -->
-
-
-    
 
 </body>
 </html>
